@@ -284,8 +284,16 @@ async def create_incident(request: Request):
         try:
             planner = await plan_incident(body)
         except Exception as e:
-            # Do not expose provider errors, request content, or secrets.
-            raise HTTPException(502, "Incident planning failed; check server model configuration")
+            # Log the error for debugging without exposing it to the client.
+            print(
+                f"Incident planning failed: "
+                f"{type(e).__name__}: {e}",
+                flush=True,
+            )
+            raise HTTPException(
+                status_code=502,
+                detail="Incident planning failed; check server model configuration",
+            )
         state["planner"] = planner
         state["diagnosis"] = planner["diagnosis"]
         for d in planner["diagnostics"]:
