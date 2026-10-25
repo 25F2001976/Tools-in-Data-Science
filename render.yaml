@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: incident-agent
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    disk:
+      name: incident-agent-data
+      mountPath: /data
+      sizeGB: 1
