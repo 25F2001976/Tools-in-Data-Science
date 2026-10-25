@@ -247,9 +247,9 @@ def finalise(state, completed: bool, chosen_effect=None):
     state["pending_approvals"] = []
     state["otlp"] = trace_export(state)
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def root():
-    return {"service":"incident-agent","profile":PROFILE,"health":"ok"}
+    return {"service": "incident-agent", "profile": PROFILE, "health": "ok"}
 
 @app.get("/health")
 def health():
